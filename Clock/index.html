@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Clock</title>
+</head>
+<body>
+  <div class="container">
+    <div class="clock">
+        <div class="circle" id="sc" style="--clr:#04fc43;"><i></i></div>
+        <div class="circle circle2" id="mn" style="--clr:#008cfe;"><i></i></div>
+        <div class="circle circle3" id="hr" style="--clr:#ff2972;"><i></i></div>
+        <span style="--i:1;"><b>1</b></span>
+        <span style="--i:2;"><b>2</b></span>
+        <span style="--i:3;"><b>3</b></span>
+        <span style="--i:4;"><b>4</b></span>
+        <span style="--i:5;"><b>5</b></span>
+        <span style="--i:6;"><b>6</b></span>
+        <span style="--i:7;"><b>7</b></span>
+        <span style="--i:8;"><b>8</b></span>
+        <span style="--i:9;"><b>9</b></span>
+        <span style="--i:10;"><b>10</b></span>
+        <span style="--i:11;"><b>11</b></span>
+        <span style="--i:12;"><b>12</b></span>
+    </div>
+    <!--Digital clock-->
+    <div id="time">
+      <div id="hour" style="--clr:#e70f65;" >00</div>
+      <div id="minutes" style="--clr:#0072fe;">00</div>
+      <div id="seconds" style="--clr:#17f848;">00</div>
+      <div id="ampm">AM</div>
+    </div>
+  </div>  
+  <script>
+    let hr = document.querySelector('#hr');
+    let mn = document.querySelector('#mn');
+    let sc = document.querySelector('#sc');
+
+    setInterval(() => {
+    // Get the current date and time
+    let day = new Date();
+    let hh = day.getHours();
+    let mm = day.getMinutes();
+    let ss = day.getSeconds();
+
+    // Calculate the degrees of rotation for each hand
+    let hhRotation = (hh * 30) + (mm / 2); // Each hour is 30 degrees, and additional rotation based on minutes
+    let mmRotation = (mm * 6) + (ss / 10); // Each minute is 6 degrees, and additional rotation based on seconds
+    let ssRotation = ss * 6; // Each second is 6 degrees
+
+    // Apply the rotation to the clock hands using CSS transform property
+    hr.style.transform = `rotateZ(${hhRotation}deg)`;
+    mn.style.transform = `rotateZ(${mmRotation}deg)`;
+    sc.style.transform = `rotateZ(${ssRotation}deg)`;
+  }, 1000);
+
+  function updateClock() {
+      const timeElement = document.getElementById("time");
+      const hourElement = document.getElementById("hour");
+      const minutesElement = document.getElementById("minutes");
+      const secondsElement = document.getElementById("seconds");
+      const ampmElement = document.getElementById("ampm");
+
+      const date = new Date();
+      let hour = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      const ampm = hour >= 12 ? "PM" : "AM";
+
+      hour = hour % 12 || 12;
+
+      hourElement.textContent = hour.toString().padStart(2, "0");
+      minutesElement.textContent = minutes.toString().padStart(2, "0");
+      secondsElement.textContent = seconds.toString().padStart(2, "0");
+      ampmElement.textContent = ampm;
+    }
+// Update the clock every second
+setInterval(updateClock, 1000);
+
+// Initial clock update
+updateClock();
+    
+  </script>
+</body>
+</html>
